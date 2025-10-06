@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import { createServer } from "node:http";
 import dbConfig from "./configs/database.js";
 import logger from "./middlewares/logger.js";
-import userRoute from "./routes/userRoute.js";
+import userRoute from "./routes/authRoute.js";
 const app = express();
 
 const server = createServer(app);

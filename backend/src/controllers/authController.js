@@ -1,4 +1,4 @@
-import userService from "../services/userService.js";
+import userService from "../services/authService.js";
 import { createToken } from "../utils/jwt.js";
 
 //register controller
