@@ -4,9 +4,15 @@ import { createServer } from "node:http";
 import dbConfig from "./configs/database.js";
 import logger from "./middlewares/logger.js";
 import userRoute from "./routes/authRoute.js";
+import cors from 'cors'
 const app = express();
 
 const server = createServer(app);
+app.use(cors(
+ {
+   origin: 'http://localhost:3000'
+ }
+))
 app.use(express.json());
 app.use(cookieParser());
 dbConfig();

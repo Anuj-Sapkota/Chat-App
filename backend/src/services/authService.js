@@ -34,18 +34,19 @@ const login = async (data) => {
   const user = await userModel.findOne({ email: data.email });
 
   if (!user) {
-    throw new Error({
-      statusCode: "401",
+    throw {
+      statusCode: 401,
       message: "Incorrect Email or Password",
-    });
+    };
   }
+  
   const comparePassword = await bcrypt.compare(data.password, user.password);
-
+  console.log(comparePassword)
   if (comparePassword == false) {
-    throw new Error({
-      statusCode: "401",
+    throw{
+      statusCode: 401,
       message: "Incorrect Email or Password",
-    });
+    };
   }
 
   //converting to js object

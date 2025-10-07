@@ -33,7 +33,7 @@ const login = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(error.statusCode || 500).send(error.message);
   }
 };
 export default { register, login };
