@@ -1,64 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import animatedLogo from "@/assets/animated/logo-animated.apng";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { LoginApi } from "@/api/auth";
-import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { Bounce, toast } from "react-toastify";
+import { EMAIL_REGEX } from "@/constants/regex";
+import { useRouter } from "next/navigation";
+import { HOME_PAGE, REGISTER_PAGE } from "@/constants/routes";
+import Link from "next/link";
+import AnimatedLogo from "../_components/AnimatedLogo";
+import PasswordInputField from "../_components/PasswordInputField";
 
 const LoginPage = () => {
-  //use state
-  const [showPassword, setShowPassword] = useState(false);
-
   //use forms
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  //Watch
-  const password = watch("password");
+  //use router
+  const router = useRouter();
 
   //login
-  const Login = async (data) => {
+  const submitForm = async (data) => {
     try {
       const res = await LoginApi(data);
-
       console.log(res.data);
+      router.push(HOME_PAGE);
     } catch (error) {
-      toast(error.response?.data);
+      toast.error(error.response.data, {
+        autoClose: 1200,
+        transition: Bounce,
+        theme: "dark",
+      });
       console.log(error);
     }
   };
+
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <a
-            href="#"
-            className="flex items-center mb-6 text-3xl font-semibold text-gray-900 dark:text-white"
-          >
-            <Image
-              className="w-8 h-8 mr-2 select-none"
-              src={animatedLogo}
-              alt="logo"
-            />
-            Chat
-          </a>
+          <AnimatedLogo />
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
               <form
-                onSubmit={handleSubmit(Login)}
+                onSubmit={handleSubmit(submitForm)}
                 className="space-y-4 md:space-y-6"
-                action="#"
               >
                 <div>
                   <label
@@ -70,10 +62,20 @@ const LoginPage = () => {
                   <input
                     type="email"
                     id="email"
-                    {...register("email", { required: true })}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    autoComplete="email"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: EMAIL_REGEX,
+                        message: "Invalid Email!",
+                      },
+                    })}
+                    className="bg-gray-50 border  border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:bg-gray-600 dark:focus:border-blue-500"
                     placeholder="name@company.com"
                   />
+                  <p className="text-sm text-red-500 h-2 mt-1">
+                    {errors.email?.message}
+                  </p>
                 </div>
                 <div>
                   <label
@@ -82,21 +84,19 @@ const LoginPage = () => {
                   >
                     Password
                   </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      placeholder="••••••••"
-                      {...register("password", { required: true })}
-                      className=" bg-gray-50 pr-12 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-
-                    <FontAwesomeIcon
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      icon={showPassword ? faEye : faEyeSlash}
-                      className="absolute right-3 top-4 text-white"
-                    />
-                  </div>
+                  <PasswordInputField
+                    id="password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password length must be greater than 6",
+                      },
+                    })}
+                  />
+                  <p className="text-sm text-red-500 h-2 mt-1">
+                    {errors.password?.message}
+                  </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-start">
@@ -132,13 +132,13 @@ const LoginPage = () => {
                   Sign in
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet?{" "}
-                  <a
-                    href="#"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  Don’t have an account yet?
+                  <Link
+                    href={REGISTER_PAGE}
+                    className="font-medium ml-2 text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Sign up
-                  </a>
+                    Register here
+                  </Link>
                 </p>
               </form>
             </div>

@@ -4,14 +4,13 @@ import config from "../configs/config.js";
 
 //register service
 const register = async (data) => {
-
-  const userCheck = await userModel.find({email: data.email}); //checking if the user already exists or not
+  const userCheck = await userModel.find({ email: data.email }); //checking if the user already exists or not
 
   if (userCheck) {
     throw new Error({
       statusCode: "409",
-      message: "User Already Exists!"
-    })
+      message: "User Already Exists!",
+    });
   }
 
   const salt = await bcrypt.genSalt(10); //generating salt
@@ -30,8 +29,8 @@ const register = async (data) => {
 
 //login service
 const login = async (data) => {
-  
   const user = await userModel.findOne({ email: data.email });
+  console.log(user);
 
   if (!user) {
     throw {
@@ -39,11 +38,10 @@ const login = async (data) => {
       message: "Incorrect Email or Password",
     };
   }
-  
   const comparePassword = await bcrypt.compare(data.password, user.password);
-  console.log(comparePassword)
+  console.log(comparePassword);
   if (comparePassword == false) {
-    throw{
+    throw {
       statusCode: 401,
       message: "Incorrect Email or Password",
     };

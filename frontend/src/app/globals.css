@@ -13,5 +13,12 @@
   --color-primary-900: #1e3a8a;
   --color-primary-950: #172554;
 }
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #364153  inset !important;
+  } */
 
-@custom-variant light (&:where(.light, .light *));
+
+@custom-variant light (&:is(.light *));
