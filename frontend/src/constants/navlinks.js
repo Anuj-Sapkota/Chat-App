@@ -1,4 +1,4 @@
-const { LOGIN_PAGE, REGISTER_PAGE } = require("./routes")
+const { LOGIN_PAGE, REGISTER_PAGE, HOME_PAGE } = require("./routes")
 
 const navlinks = [
     {
@@ -8,5 +8,9 @@ const navlinks = [
     {
         router: REGISTER_PAGE,
         label: "Register"
+    },
+    {
+        router: HOME_PAGE,
+        label: "Home"
     }
 ]

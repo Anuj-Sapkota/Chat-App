@@ -26,7 +26,6 @@ const LoginPage = () => {
   const submitForm = async (data) => {
     try {
       const res = await LoginApi(data);
-      console.log(res.data);
       router.push(HOME_PAGE);
     } catch (error) {
       toast.error(error.response.data, {
