@@ -1,12 +1,10 @@
 import userModel from "../models/User.js";
 import bcrypt, { compareSync } from "bcrypt";
-import config from "../configs/config.js";
 
 //register service
 const register = async (data) => {
   const userCheck = await userModel.findOne({ email: data.email }); //checking if the user already exists or not
 
-  console.log(userCheck);
   
   if (userCheck) {
     throw {

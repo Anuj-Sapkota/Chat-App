@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { LoginApi } from "@/api/auth";
 import { Bounce, toast } from "react-toastify";
@@ -10,6 +10,8 @@ import { HOME_PAGE, REGISTER_PAGE } from "@/constants/routes";
 import Link from "next/link";
 import AnimatedLogo from "../_components/AnimatedLogo";
 import PasswordInputField from "../_components/PasswordInputField";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsync } from "@/redux/auth/authActions";
 
 const LoginPage = () => {
   //use forms
@@ -22,12 +24,33 @@ const LoginPage = () => {
   //use router
   const router = useRouter();
 
+  //use dispatch
+  const dispatch = useDispatch();
+
+  //use selector
+  const { user, error, loading, fullfilled } = useSelector((state) => state.auth)
   //login
   const submitForm = async (data) => {
-    try {
-      const res = await LoginApi(data);
-      router.push(HOME_PAGE);
-    } catch (error) {
+    dispatch(loginAsync(data))
+    // try {
+    //   const res = await LoginApi(data);
+    //   router.push(HOME_PAGE);
+    //   console.log(res)
+    // } catch (error) {
+    //   toast.error(error.response.data, {
+    //     autoClose: 1200,
+    //     transition: Bounce,
+    //     theme: "dark",
+    //   });
+    //   console.log(error);
+    // }
+  };
+
+  //use effect
+  useEffect(() => {
+    
+    //if error occured
+    if (error) {
       toast.error(error.response.data, {
         autoClose: 1200,
         transition: Bounce,
@@ -35,7 +58,12 @@ const LoginPage = () => {
       });
       console.log(error);
     }
-  };
+
+    // when user has authToken
+    if (user?.authToken) {
+      router.push(HOME_PAGE);
+    }
+  }, [user, error, loading])
 
   return (
     <>

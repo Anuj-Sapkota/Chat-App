@@ -13,7 +13,7 @@ const register = async (req, res) => {
       maxAge: 2 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json(data);
+    res.status(201).json({...data, authToken});
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -26,12 +26,13 @@ const login = async (req, res) => {
     const data = await userService.login(body);
     //token creation
     const authToken = createToken(data);
+
     //cookie creation
     res.cookie("authToken", authToken, {
       maxAge: 2 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json(data);
+    res.status(200).json({...data, authToken});
   } catch (error) {
     res.status(error.statusCode || 500).send(error.message);
   }
