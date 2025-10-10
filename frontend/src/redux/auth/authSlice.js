@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginAsync } from "./authActions";
+import { LOGIN_PAGE } from "@/constants/routes";
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -8,6 +10,11 @@ const authSlice = createSlice({
     loading: false,
     success: false,
     error: null,
+  },
+  reducers:{
+    logout: (state)=>{
+      state.user = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -26,4 +33,5 @@ const authSlice = createSlice({
   },
 });
 
+export const {logout} = authSlice.actions;
 export default authSlice.reducer;

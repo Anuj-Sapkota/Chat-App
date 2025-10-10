@@ -21,3 +21,4 @@ export const registerAsync = createAsyncThunk("auth/register", async (data) => {
 
   return response.data;
 });
+

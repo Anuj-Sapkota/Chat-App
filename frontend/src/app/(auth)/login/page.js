@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { LoginApi } from "@/api/auth";
 import { Bounce, toast } from "react-toastify";
 import { EMAIL_REGEX } from "@/constants/regex";
 import { useRouter } from "next/navigation";
@@ -32,18 +31,7 @@ const LoginPage = () => {
   //login
   const submitForm = async (data) => {
     dispatch(loginAsync(data))
-    // try {
-    //   const res = await LoginApi(data);
-    //   router.push(HOME_PAGE);
-    //   console.log(res)
-    // } catch (error) {
-    //   toast.error(error.response.data, {
-    //     autoClose: 1200,
-    //     transition: Bounce,
-    //     theme: "dark",
-    //   });
-    //   console.log(error);
-    // }
+
   };
 
   //use effect

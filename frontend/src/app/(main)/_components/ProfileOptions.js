@@ -1,8 +1,22 @@
+import { logout } from '@/redux/auth/authSlice';
 import React from 'react'
 import { TbLogout } from "react-icons/tb";
 import { TbTriangleFilled } from "react-icons/tb";
-
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { LOGIN_PAGE } from '@/constants/routes';
 const ProfileOptions = () => {
+    //use router
+    const router = useRouter()
+
+    //use dispatch
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        router.push(LOGIN_PAGE);
+    }
+
     return (
         <>
             <div className="absolute -right-58 mt-4 z-10 lg:w-70 bg-white divide-y  rounded-lg shadow-sm w-40 dark:bg-gray-700 ">
@@ -17,7 +31,7 @@ const ProfileOptions = () => {
                                 <div className='rounded-full w-8 h-8 bg-gray-500 flex items-center justify-center p-[5px]'>
                                     <TbLogout className='size-full text-gray-200 ' />
                                 </div>
-                                <p className='text-[1rem] font-medium'>Log out</p>
+                                <button onClick={handleLogout} className='text-[1rem] font-medium'>Log out</button>
                             </a>
                         </li>
 

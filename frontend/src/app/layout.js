@@ -8,9 +8,9 @@ export default function RootLayout({ children }) {
       <body>
         <AppProvider>
           <main>
-            <div className=" bg-black flex w-[100vw] h-screen py-4" >
+            
               {children} 
-            </div>
+            
           </main>
           <ToastContainer />
         </AppProvider>
