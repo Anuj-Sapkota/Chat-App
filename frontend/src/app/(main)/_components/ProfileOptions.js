@@ -26,13 +26,13 @@ const ProfileOptions = () => {
                 </div>
                 <div className='dark:divide-gray-600 divide-gray-100'>
                     <ul className="py-2  text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-                        <li>
-                            <a href="#" className=" px-4 py-2 flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <li className='px-1 '>
+                            <button onClick={handleLogout} className=" w-full px-4 py-2 flex items-center gap-4 rounded-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                 <div className='rounded-full w-8 h-8 bg-gray-500 flex items-center justify-center p-[5px]'>
                                     <TbLogout className='size-full text-gray-200 ' />
                                 </div>
-                                <button onClick={handleLogout} className='text-[1rem] font-medium'>Log out</button>
-                            </a>
+                                <p className='text-[1rem] font-medium'>Log out</p>
+                            </button>
                         </li>
 
                     </ul>

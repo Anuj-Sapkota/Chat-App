@@ -1,40 +1,62 @@
 "use client";
-import React from "react";
-import AnimatedLogo from "../_components/AnimatedLogo";
+import React, { useEffect } from "react";
+import AnimatedLogo from "../../components/AnimatedLogo";
 import Link from "next/link";
 import { HOME_PAGE, LOGIN_PAGE } from "@/constants/routes";
 import PasswordInputField from "../_components/PasswordInputField";
 import { useForm } from "react-hook-form";
-import { RegisterApi } from "@/api/auth";
 import { useRouter } from "next/navigation";
-import { toast , Bounce} from "react-toastify";
+import { toast, Bounce } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { registerAsync } from "@/redux/auth/authActions";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 const RegisterPage = () => {
   //use forms
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
   //use Router
   const router = useRouter();
 
+  //get state from use selector
+  const { user, error, loading } = useSelector((state) => state.auth)
+
+  //use dispatch for register
+  const dispatch = useDispatch();
+
+  //watch
+  const password = watch("password");
+
   //submit
   const submitForm = async (data) => {
-    try {
-      console.log("reached submitForm");
-      const response = await RegisterApi(data);
-      console.log(response);
-      router.push(HOME_PAGE);
-    } catch (error) {
-      toast.error(error.response?.data, {
+
+    dispatch(registerAsync(data));
+  };
+
+
+  //use effect
+  useEffect(() => {
+
+    //if error occured
+    if (error) {
+      toast.error(error, {
         autoClose: 1200,
         transition: Bounce,
         theme: "dark",
       });
-      console.log(error.response);
+      console.log(error);
     }
-  };
+
+    // when user has authToken
+    if (user?.authToken) {
+      router.push(HOME_PAGE);
+    }
+  }, [user, error, loading])
+
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -135,7 +157,7 @@ const RegisterPage = () => {
                 </div>
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
@@ -150,10 +172,13 @@ const RegisterPage = () => {
                       },
                     })}
                   />
+                  <p className="text-sm text-red-500 h-2 mt-1">
+                    {errors.password?.message}
+                  </p>
                 </div>
                 <div>
                   <label
-                    for="confirmPassword"
+                    htmlFor="confirmPassword"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Confirm password
@@ -166,8 +191,14 @@ const RegisterPage = () => {
                         value: 6,
                         message: "Password length must be greater than 6",
                       },
+                      validate: (value) => {
+                        if (password != value) return "Passwords do not match!";
+                      }
                     })}
                   />
+                  <p className="text-sm text-red-500 h-2 mt-1">
+                    {errors.confirmPassword?.message}
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
@@ -181,7 +212,7 @@ const RegisterPage = () => {
                   </div>
                   <div className="ml-3 text-sm">
                     <label
-                      for="terms"
+                      htmlFor="terms"
                       className="font-light text-gray-500 dark:text-gray-300"
                     >
                       I accept the
@@ -196,12 +227,13 @@ const RegisterPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  disabled={loading}
+                  className="w-full text-white bg-primary-600 hover:bg-primary-700 cursor-pointer focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Create an account
+                  {loading?<LoadingSpinner/>:"Create an Account"}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Already have an account?{" "}
+                  Already have an account?
                   <Link
                     href={LOGIN_PAGE}
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"

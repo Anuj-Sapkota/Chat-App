@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAsync } from "./authActions";
+import { loginAsync, registerAsync } from "./authActions";
 import { LOGIN_PAGE } from "@/constants/routes";
 
 
@@ -11,8 +11,8 @@ const authSlice = createSlice({
     success: false,
     error: null,
   },
-  reducers:{
-    logout: (state)=>{
+  reducers: {
+    logout: (state) => {
       state.user = null;
     }
   },
@@ -29,9 +29,21 @@ const authSlice = createSlice({
       .addCase(loginAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
-  },
+      })
+      .addCase(registerAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+    .addCase(registerAsync.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    })
+    .addCase(registerAsync.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+},
 });
 
-export const {logout} = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

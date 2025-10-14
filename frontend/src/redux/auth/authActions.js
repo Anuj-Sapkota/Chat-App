@@ -16,9 +16,13 @@ export const loginAsync = createAsyncThunk(
 );
 
 //register thunk
-export const registerAsync = createAsyncThunk("auth/register", async (data) => {
-  const response = await RegisterApi(data);
-
-  return response.data;
+export const registerAsync = createAsyncThunk("auth/register", async (data, { rejectWithValue }) => {
+  try {
+    const response = await RegisterApi(data);
+    localStorage.setItem("authToken", response.data.authToken);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data);
+  }
 });
 
