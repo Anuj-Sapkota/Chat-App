@@ -54,6 +54,9 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+//index creation
+userSchema.index({fName: "text",mName: "text", lName: "text"});
+
 //model
 const model = mongoose.model("User", userSchema);
 
