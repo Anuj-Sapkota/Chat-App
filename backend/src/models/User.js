@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
       trim: true,
     },
   },
+  friends:
+  {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -55,8 +60,12 @@ const userSchema = new mongoose.Schema({
 });
 
 //index creation
-userSchema.index({fName: "text",mName: "text", lName: "text"});
-
+userSchema.index({
+  firstName: "text",
+  middleName: "text",
+  lastName: "text",
+  username: "text"
+})
 //model
 const model = mongoose.model("User", userSchema);
 
