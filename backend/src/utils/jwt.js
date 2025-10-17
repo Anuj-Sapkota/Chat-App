@@ -10,8 +10,8 @@ const createToken = (data) => {
 };
 
 const verifyToken = async (authToken) => {
-    const verify = jwt.verify(authToken, config.jwtPrivateKey)
-    console.log(verify)
+  const verifiedToken =  jwt.verify(authToken, config.jwtPrivateKey)
+  return verifiedToken;
 };
 
 export  { createToken, verifyToken };

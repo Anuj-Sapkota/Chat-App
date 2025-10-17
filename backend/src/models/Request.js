@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 
 const requestSchema = new mongoose.Schema({
-    from: {
+    sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "Sender is required"]
     },
-    to: {
+    reciever: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: [true, "Sender is required"]
     },
     status: {
-        type: Boolean,
+        type: String,
         default: false,
+        enum: ["Pending", "Accepted"],
         required: true
     },
     createdAt: {
@@ -25,6 +26,6 @@ const requestSchema = new mongoose.Schema({
 
 })
 
-const requestModel = mongoose.model(requestSchema, "Request");
+const model = mongoose.model("Request", requestSchema);
 
-export default requestModel;
+export default model;
