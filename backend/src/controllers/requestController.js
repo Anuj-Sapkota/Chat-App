@@ -2,7 +2,7 @@ import requestService from "../services/requestService.js"
 
 const sendRequest = async (req, res) => {
     try {
-        
+
         const senderId = req.user.data._id;
         const receverId = req.params.id;
         const data = await requestService.sendrequest(senderId, receverId);
@@ -15,13 +15,13 @@ const sendRequest = async (req, res) => {
 
 const recieveRequest = async (req, res) => {
     try {
-        const recieverId = req.user._id;
+        const recieverId = req.user.data._id;
+        console.log(recieverId)
         const data = await requestService.recieveRequest(recieverId);
         res.status(200).json(data);
     } catch (error) {
         res.status(500).send(error.message)
-
     }
 }
 
-export default { sendRequest , recieveRequest}
+export default { sendRequest, recieveRequest }
