@@ -21,7 +21,7 @@ const layout = ({ children }) => {
     if (!user && !user?.authToken) return <div className='flex justify-center py-14'><LoadingSpinner className="w-12 h-12 text-primary-800" /></div>
     return (
         <>
-            <div className=" bg-black flex w-[100vw] h-screen py-4">
+            <div className=" bg-black flex w-[100vw] h-screen py-2">
                 {children}
             </div></>
     )

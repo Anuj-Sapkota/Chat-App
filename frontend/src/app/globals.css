@@ -13,7 +13,9 @@
   --color-primary-900: #1e3a8a;
   --color-primary-950: #172554;
 
-  --color-secondary: #202329;
+  --color-secondary-1: #191A2D;
+  --color-secondary-2: #15213E;
+  --color-secondary-3: #103460;
 }
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover, 

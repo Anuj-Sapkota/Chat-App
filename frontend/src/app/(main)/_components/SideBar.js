@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import ProfileImage from './ProfileImage';
 import ProfileOptions from './ProfileOptions';
+import { TbArchive } from 'react-icons/tb';
 
 const SideBar = () => {
     //use states
@@ -30,12 +31,17 @@ const SideBar = () => {
         }
     }
     return (
-        <div className='relative'>
-            <button onClick={() => setShowProfileOptions(prev => !prev)}><ProfileImage /></button>
-            {/* Dropdown for profile options */}
-           <div ref={modalRef}>
-             {showProfileOptions && <ProfileOptions />}
-           </div>
+        <div className='relative [&>div]:mb-6 [&>div]:w-12 [&>div]:h-12 [&>div]:hover:bg-[#383838] [&>div]:rounded-xl  [&>div]:p-2'>
+            <div>
+                <button onClick={() => setShowProfileOptions(prev => !prev)}><ProfileImage /></button>
+                {/* Dropdown for profile options */}
+                <div ref={modalRef}>
+                    {showProfileOptions && <ProfileOptions />}
+                </div>
+            </div>
+            <div className='cursor-pointer'>
+                <TbArchive className='text-gray-400 text-3xl' />
+            </div>
         </div>
     )
 }

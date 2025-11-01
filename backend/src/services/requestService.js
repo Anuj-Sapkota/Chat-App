@@ -23,7 +23,7 @@ console.log("requsts exists", requestExists)
 const recieveRequest = async (recieverId) => {
     const recievedRequests = await requestModel.find({ reciever: recieverId}).populate('sender', "firstName middleName lastName profilePicture.url").lean();
     console.log("recieverId: ", recieverId)
-    console.log("recieved REq", recievedRequests);
+    console.log("recieved req", recievedRequests);
 
     if(recievedRequests.length == 0){
         return "No Requests Recieved"
