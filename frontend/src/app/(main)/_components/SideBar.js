@@ -4,6 +4,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import ProfileImage from './ProfileImage';
 import ProfileOptions from './ProfileOptions';
 import { TbArchive } from 'react-icons/tb';
+import { FaRegBell } from "react-icons/fa";
+import { MdOutlinePeopleAlt } from "react-icons/md";
 
 const SideBar = () => {
     //use states
@@ -31,16 +33,27 @@ const SideBar = () => {
         }
     }
     return (
-        <div className='relative [&>div]:mb-6 [&>div]:w-12 [&>div]:h-12 [&>div]:hover:bg-[#383838] [&>div]:rounded-xl  [&>div]:p-2'>
-            <div>
+        <div className='flex flex-col justify-center'>
+            <div className='relative mb-6 w-12 h-12 hover:bg-[#383838] rounded-xl  p-2' >
                 <button onClick={() => setShowProfileOptions(prev => !prev)}><ProfileImage /></button>
                 {/* Dropdown for profile options */}
                 <div ref={modalRef}>
                     {showProfileOptions && <ProfileOptions />}
                 </div>
             </div>
-            <div className='cursor-pointer'>
-                <TbArchive className='text-gray-400 text-3xl' />
+            <div className=' [&>div]:mb-6 [&>div]:w-10 [&>div]:h-10 [&>div]:hover:bg-[#383838] [&>div]:rounded-xl  [&>div]:p-2 flex flex-col justify-center items-center'>
+                <div className='cursor-pointer'>
+                    <TbArchive className='text-gray-400 text-2xl' />
+                </div>
+                {/* Notification*/}
+                <div className='cursor-pointer'>
+                    <FaRegBell className='text-gray-400 text-2xl' />
+                </div>
+                {/* Requests */}
+                <div className='cursor-pointer'>
+                    <MdOutlinePeopleAlt className='text-gray-400 text-2xl' />
+
+                </div>
             </div>
         </div>
     )
